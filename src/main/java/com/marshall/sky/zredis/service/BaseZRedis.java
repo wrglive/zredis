@@ -1,5 +1,6 @@
 package com.marshall.sky.zredis.service;
 
+import java.io.InputStream;
 import java.util.Properties;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -12,11 +13,12 @@ public abstract class BaseZRedis {
   protected BaseZRedis() {
   }
 
-  protected static void init(Properties properties) throws Exception {
+  protected static void init() {
     if (jedisPool == null) {
       Class var1 = BaseZRedis.class;
       synchronized (BaseZRedis.class) {
         if (jedisPool == null) {
+          Properties properties = getProperties();
           String host = properties.getProperty("host", "");
           Integer port = Integer.valueOf(properties.getProperty("port", "0"));
           String password = properties.getProperty("password", null);
@@ -37,16 +39,14 @@ public abstract class BaseZRedis {
 
   protected static Jedis getRedis() {
     if (jedisPool == null) {
-      throw new RuntimeException("jedis has not init success");
-    } else {
-      Jedis jedis = jedisPool.getResource();
-      if (!jedis.isConnected()) {
-        releaseRedis(jedis);
-        jedis = jedisPool.getResource();
-      }
-
-      return jedis;
+      BaseZRedis.init();
     }
+    Jedis jedis = jedisPool.getResource();
+    if (!jedis.isConnected()) {
+      releaseRedis(jedis);
+      jedis = jedisPool.getResource();
+    }
+    return jedis;
   }
 
   protected static void releaseRedis(Jedis jedis) {
@@ -61,7 +61,15 @@ public abstract class BaseZRedis {
     }
   }
 
-  protected static JedisPool getJedisPool() {
-    return jedisPool;
+  private static Properties getProperties() {
+    Properties properties = new Properties();
+    try {
+      InputStream inputStream = InitRegistryProcessor.class.getClassLoader()
+          .getResourceAsStream("sky-zredis.properties");
+      properties.load(inputStream);
+    } catch (Exception e) {
+      throw new RuntimeException("load sky-zredis.properties error!");
+    }
+    return properties;
   }
 }

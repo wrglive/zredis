@@ -1,7 +1,5 @@
 package com.marshall.sky.zredis.service;
 
-import java.io.InputStream;
-import java.util.Properties;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -22,17 +20,10 @@ public class InitRegistryProcessor implements BeanDefinitionRegistryPostProcesso
     if (!enableZRedis()) {
       return;
     }
-    try {
-      InputStream inputStream = InitRegistryProcessor.class.getClassLoader()
-          .getResourceAsStream("sky-zredis.properties");
-      Properties properties = new Properties();
-      properties.load(inputStream);
-      BaseZRedis.init(properties);
-      //registry bean
-      registryBean(StringZRedis.class);
-    } catch (Exception e) {
-      throw new RuntimeException("load sky-zredis.properties error!");
-    }
+    BaseZRedis.init();
+    //registry bean
+    registryBean(StringZRedis.class);
+    registryBean(HashZRedis.class);
   }
 
   @Override
