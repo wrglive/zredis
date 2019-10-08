@@ -20,10 +20,10 @@ public class InitRegistryProcessor implements BeanDefinitionRegistryPostProcesso
     if (!enableZRedis()) {
       return;
     }
-    BaseZRedis.init();
+    BaseRedis.init();
     //registry bean
-    registryBean(StringZRedis.class);
-    registryBean(HashZRedis.class);
+    registryBean(StringRedis.class);
+    registryBean(HashRedis.class);
   }
 
   @Override

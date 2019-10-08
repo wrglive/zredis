@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface HashZRedisCommand {
+public interface HashRedisCommand {
 
   Long delete(final String key, final String... fields);
 

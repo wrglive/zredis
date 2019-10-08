@@ -3,7 +3,7 @@ package com.marshall.sky.zredis.service;
 import java.util.List;
 import java.util.Map;
 
-public interface StringZRedisCommand {
+public interface StringRedisCommand {
 
   Long append(final String key, final String value);
 

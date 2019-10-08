@@ -6,17 +6,16 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-public abstract class BaseZRedis {
+public abstract class BaseRedis {
 
   protected static volatile JedisPool jedisPool = null;
 
-  protected BaseZRedis() {
+  protected BaseRedis() {
   }
 
   protected static void init() {
     if (jedisPool == null) {
-      Class var1 = BaseZRedis.class;
-      synchronized (BaseZRedis.class) {
+      synchronized (BaseRedis.class) {
         if (jedisPool == null) {
           Properties properties = getProperties();
           String host = properties.getProperty("host", "");
@@ -24,7 +23,7 @@ public abstract class BaseZRedis {
           String password = properties.getProperty("password", null);
           Integer db = Integer.valueOf(properties.getProperty("db", "0"));
           JedisPoolConfig config = new JedisPoolConfig();
-          // 获取jedis实例是最多等待的时间
+          // 获取redis实例是最多等待的时间
           config.setMaxWaitMillis(10000);
           // 在去连接时是否判断可用有效
           config.setTestOnBorrow(true);
@@ -39,7 +38,7 @@ public abstract class BaseZRedis {
 
   protected static Jedis getRedis() {
     if (jedisPool == null) {
-      BaseZRedis.init();
+      BaseRedis.init();
     }
     Jedis jedis = jedisPool.getResource();
     if (!jedis.isConnected()) {
