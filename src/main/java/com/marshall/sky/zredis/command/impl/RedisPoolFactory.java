@@ -23,13 +23,17 @@ public abstract class RedisPoolFactory {
           Integer port = Integer.valueOf(properties.getProperty("port", "0"));
           String password = properties.getProperty("password", null);
           Integer db = Integer.valueOf(properties.getProperty("db", "0"));
+
           JedisPoolConfig config = new JedisPoolConfig();
           // 获取redis实例是最多等待的时间
           config.setMaxWaitMillis(BaseRedisPoolProperties.getDefaultMaxWaitMillis());
+          config.setMaxIdle(BaseRedisPoolProperties.getDefaultMaxIdle());
+          config.setMinIdle(BaseRedisPoolProperties.getDefaultMinIdle());
           // 在去连接时是否判断可用有效
           config.setTestOnBorrow(true);
           //return 一个jedis实例给pool时，是否检查连接可用性（ping()）
           config.setTestOnReturn(true);
+
           jedisPool = new JedisPool(config, host, port, 5000,
               password, db);
         }
