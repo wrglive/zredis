@@ -1,6 +1,5 @@
-package com.marshall.sky.zredis;
+package com.marshall.sky.zredis.util;
 
-import java.io.FileReader;
 import java.util.Properties;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -10,19 +9,18 @@ public abstract class BaseRedis {
 
   protected static volatile JedisPool jedisPool = null;
 
-  protected BaseRedis(){}
+  protected BaseRedis() {
+  }
 
-  public static void init(String confPath) throws Exception {
+  protected static void init(Properties properties) throws Exception {
     if (jedisPool == null) {
       Class var1 = BaseRedis.class;
       synchronized (BaseRedis.class) {
         if (jedisPool == null) {
-          Properties properties = new Properties();
-          properties.load(new FileReader(confPath));
           String host = properties.getProperty("host", "");
           Integer port = Integer.valueOf(properties.getProperty("port", "0"));
           String password = properties.getProperty("password", "");
-          Integer db =Integer.valueOf(properties.getProperty("db", "0"));
+          Integer db = Integer.valueOf(properties.getProperty("db", "0"));
           JedisPoolConfig config = new JedisPoolConfig();
           // 获取jedis实例是最多等待的时间
           config.setMaxWaitMillis(10000);
@@ -31,19 +29,19 @@ public abstract class BaseRedis {
           //return 一个jedis实例给pool时，是否检查连接可用性（ping()）
           config.setTestOnReturn(true);
           jedisPool = new JedisPool(config, host, port, 5000,
-              password);
+              password, db);
         }
       }
     }
   }
 
-  protected static Jedis getJedis() {
+  protected static Jedis getRedis() {
     if (jedisPool == null) {
       throw new RuntimeException("jedis has not init success");
     } else {
       Jedis jedis = jedisPool.getResource();
       if (!jedis.isConnected()) {
-        releaseJedis(jedis);
+        releaseRedis(jedis);
         jedis = jedisPool.getResource();
       }
 
@@ -51,7 +49,7 @@ public abstract class BaseRedis {
     }
   }
 
-  protected static void releaseJedis(Jedis jedis) {
+  protected static void releaseRedis(Jedis jedis) {
     try {
       if (jedis != null) {
         jedis.close();
@@ -63,4 +61,7 @@ public abstract class BaseRedis {
     }
   }
 
+  protected static JedisPool getJedisPool() {
+    return jedisPool;
+  }
 }
