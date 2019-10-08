@@ -1,4 +1,4 @@
-package com.marshall.sky.zredis.service;
+package com.marshall.sky.zredis.command.impl;
 
 import com.marshall.sky.zredis.config.BaseRedisPoolProperties;
 import java.io.InputStream;
@@ -7,16 +7,16 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-public abstract class BaseRedis {
+public abstract class RedisPoolFactory {
 
   protected static volatile JedisPool jedisPool = null;
 
-  protected BaseRedis() {
+  protected RedisPoolFactory() {
   }
 
   protected static void init() {
     if (jedisPool == null) {
-      synchronized (BaseRedis.class) {
+      synchronized (RedisPoolFactory.class) {
         if (jedisPool == null) {
           Properties properties = getProperties();
           String host = properties.getProperty("host", "");
@@ -39,7 +39,7 @@ public abstract class BaseRedis {
 
   protected static Jedis getRedis() {
     if (jedisPool == null) {
-      BaseRedis.init();
+      RedisPoolFactory.init();
     }
     Jedis jedis = jedisPool.getResource();
     if (!jedis.isConnected()) {

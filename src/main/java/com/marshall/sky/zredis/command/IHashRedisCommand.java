@@ -1,10 +1,13 @@
-package com.marshall.sky.zredis.service;
+package com.marshall.sky.zredis.command;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface HashRedisCommand {
+/**
+ * hash 操作
+ */
+public interface IHashRedisCommand {
 
   Long delete(final String key, final String... fields);
 

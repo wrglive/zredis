@@ -1,4 +1,4 @@
-package com.marshall.sky.zredis.service;
+package com.marshall.sky.zredis.command.impl;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -20,10 +20,10 @@ public class InitRegistryProcessor implements BeanDefinitionRegistryPostProcesso
     if (!enableZRedis()) {
       return;
     }
-    BaseRedis.init();
+    RedisPoolFactory.init();
     //registry bean
-    registryBean(StringRedis.class);
-    registryBean(HashRedis.class);
+    registryBean(StringRedisCommand.class);
+    registryBean(HashRedisCommand.class);
   }
 
   @Override

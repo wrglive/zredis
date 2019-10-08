@@ -1,9 +1,9 @@
-package com.marshall.sky.zredis.service;
+package com.marshall.sky.zredis.command;
 
 import java.util.List;
 import java.util.Map;
 
-public interface StringRedisCommand {
+public interface IStringRedisCommand {
 
   Long append(final String key, final String value);
 
@@ -21,10 +21,8 @@ public interface StringRedisCommand {
 
   Double incrByDouble(final String key, final double value);
 
-  @Deprecated
   List<String> multiGetAsList(final String... keys);
 
-  @Deprecated
   Map<String, String> multiGetAsMap(final String... keys);
 
   @Deprecated

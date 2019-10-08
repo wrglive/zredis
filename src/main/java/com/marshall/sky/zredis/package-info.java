@@ -7,4 +7,6 @@ package com.marshall.sky.zredis;
 
       然后@Resource @Autowired 注入 StringRedis、HashRedis等即可使用.
       极简化配置。
+
+      @author LivE
  **/
