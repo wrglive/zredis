@@ -1,77 +1,77 @@
-package com.marshall.sky.zredis.util;
+package com.marshall.sky.zredis.service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import redis.clients.jedis.Jedis;
 
-public class StringRedis {
+public class StringZRedis {
 
   public Long append(String key, String value) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       return jedis.append(key, value);
     }
   }
 
 
   public Long decr(String key) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       return jedis.decr(key);
     }
   }
 
 
   public String get(String key) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       return jedis.get(key);
     }
   }
 
 
   public String getRange(String key, long startOffset, long endOffset) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       return jedis.getrange(key, startOffset, endOffset);
     }
   }
 
 
   public String getOldValueAndSet(String key, String value) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       return jedis.getSet(key, value);
     }
   }
 
 
   public Long incr(String key) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       return jedis.incr(key);
     }
   }
 
 
   public Long incrBy(String key, long integer) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       return jedis.incrBy(key, integer);
     }
   }
 
 
   public Double incrByDouble(String key, double value) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       return jedis.incrByFloat(key, value);
     }
   }
 
 
   public List<String> multiGetAsList(String... keys) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       return jedis.mget(keys);
     }
   }
 
 
   public Map<String, String> multiGetAsMap(String... keys) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       List<String> list = jedis.mget(keys);
       HashMap<String, String> map = new HashMap<>(list.size());
       for (int index = 0; index < keys.length; index++) {
@@ -83,14 +83,14 @@ public class StringRedis {
 
 
   public void multiSet(String... keysValues) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       jedis.mset(keysValues);
     }
   }
 
 
   public void multiSet(Map<String, String> kvMap) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       if (kvMap == null || kvMap.isEmpty()) {
         return;
       }
@@ -108,35 +108,35 @@ public class StringRedis {
 
 
   public void set(String key, String value) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       jedis.set(key, value);
     }
   }
 
 
   public void setWithExpire(String key, int seconds, String value) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       jedis.setex(key, seconds, value);
     }
   }
 
 
   public Long setIfNotExist(String key, String value) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       return jedis.setnx(key, value);
     }
   }
 
 
   public boolean setIfNotExistWithExpire(String key, String value, int seconds) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       return jedis.set(key, value, "nx", "ex", seconds) != null;
     }
   }
 
 
   public Long setRange(String key, long offset, String value) {
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       return jedis.setrange(key, offset, value);
     }
   }
@@ -144,7 +144,7 @@ public class StringRedis {
 
   public Long getLength(String key) {
 
-    try (Jedis jedis = BaseRedis.getRedis()) {
+    try (Jedis jedis = BaseZRedis.getRedis()) {
       return jedis.strlen(key);
     }
   }

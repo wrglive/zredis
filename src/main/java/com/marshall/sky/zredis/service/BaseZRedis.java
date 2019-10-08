@@ -1,25 +1,25 @@
-package com.marshall.sky.zredis.util;
+package com.marshall.sky.zredis.service;
 
 import java.util.Properties;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-public abstract class BaseRedis {
+public abstract class BaseZRedis {
 
   protected static volatile JedisPool jedisPool = null;
 
-  protected BaseRedis() {
+  protected BaseZRedis() {
   }
 
   protected static void init(Properties properties) throws Exception {
     if (jedisPool == null) {
-      Class var1 = BaseRedis.class;
-      synchronized (BaseRedis.class) {
+      Class var1 = BaseZRedis.class;
+      synchronized (BaseZRedis.class) {
         if (jedisPool == null) {
           String host = properties.getProperty("host", "");
           Integer port = Integer.valueOf(properties.getProperty("port", "0"));
-          String password = properties.getProperty("password", "");
+          String password = properties.getProperty("password", null);
           Integer db = Integer.valueOf(properties.getProperty("db", "0"));
           JedisPoolConfig config = new JedisPoolConfig();
           // 获取jedis实例是最多等待的时间

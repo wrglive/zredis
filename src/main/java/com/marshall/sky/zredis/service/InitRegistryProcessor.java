@@ -1,4 +1,4 @@
-package com.marshall.sky.zredis.util;
+package com.marshall.sky.zredis.service;
 
 import java.io.InputStream;
 import java.util.Properties;
@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class InitRegistryProcessor implements BeanDefinitionRegistryPostProcessor {
 
   private static BeanDefinitionRegistry registry;
+
   @Override
   public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry)
       throws BeansException {
@@ -26,9 +27,9 @@ public class InitRegistryProcessor implements BeanDefinitionRegistryPostProcesso
           .getResourceAsStream("sky-zredis.properties");
       Properties properties = new Properties();
       properties.load(inputStream);
-      BaseRedis.init(properties);
+      BaseZRedis.init(properties);
       //registry bean
-      registryBean(StringRedis.class);
+      registryBean(StringZRedis.class);
     } catch (Exception e) {
       throw new RuntimeException("load sky-zredis.properties error!");
     }
@@ -43,11 +44,9 @@ public class InitRegistryProcessor implements BeanDefinitionRegistryPostProcesso
   private static void registryBean(Class clazz) {
     BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder
         .genericBeanDefinition(clazz);
-    beanDefinitionBuilder.addPropertyValue("jedisPool", BaseRedis.getJedisPool());
     BeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();
     //todo: getname
-    registry.registerBeanDefinition(clazz.getName(),
-        beanDefinition);
+    registry.registerBeanDefinition(clazz.getSimpleName(), beanDefinition);
   }
 
   private static boolean enableZRedis() {
