@@ -24,6 +24,10 @@ public class InitRegistryProcessor implements BeanDefinitionRegistryPostProcesso
     //registry bean
     registryBean(StringRedisCommand.class);
     registryBean(HashRedisCommand.class);
+    registryBean(ListRedisCommand.class);
+    registryBean(SetRedisCommand.class);
+    registryBean(SortedSetRedisCommand.class);
+    registryBean(KeyRedisCommand.class);
   }
 
   @Override
@@ -36,7 +40,7 @@ public class InitRegistryProcessor implements BeanDefinitionRegistryPostProcesso
     BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder
         .genericBeanDefinition(clazz);
     BeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();
-    //todo: getname
+    //todo: getName()
     registry.registerBeanDefinition(clazz.getSimpleName(), beanDefinition);
   }
 
