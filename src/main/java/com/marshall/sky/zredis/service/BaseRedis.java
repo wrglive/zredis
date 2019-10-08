@@ -1,5 +1,6 @@
 package com.marshall.sky.zredis.service;
 
+import com.marshall.sky.zredis.config.BaseRedisPoolProperties;
 import java.io.InputStream;
 import java.util.Properties;
 import redis.clients.jedis.Jedis;
@@ -24,7 +25,7 @@ public abstract class BaseRedis {
           Integer db = Integer.valueOf(properties.getProperty("db", "0"));
           JedisPoolConfig config = new JedisPoolConfig();
           // 获取redis实例是最多等待的时间
-          config.setMaxWaitMillis(10000);
+          config.setMaxWaitMillis(BaseRedisPoolProperties.getDefaultMaxWaitMillis());
           // 在去连接时是否判断可用有效
           config.setTestOnBorrow(true);
           //return 一个jedis实例给pool时，是否检查连接可用性（ping()）
