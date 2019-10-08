@@ -12,14 +12,20 @@ redis的二次封装
       db=0
       password=
       
-#### 用法
+#### 接口层
       @Resource
-      IHashRedisCommand
-      IKeyRedisCommand
-      IListRedisCommand
-      ISetRedisCommand
-      ISortedSetRedisCommand
-      IStringRedisCommand
+      IHashRedisCommand hash表
+      IKeyRedisCommand  key的操作
+      IListRedisCommand list操作
+      ISetRedisCommand  set操作
+      ISortedSetRedisCommand  有序set
+      IStringRedisCommand     字符串kv
       
       注入进去就可以直接用了。启动自己会注入到bean中。
+      
+### 未来更新
+      1.考虑加入多数据配置。
+      2.加入针对不同模式集群的redis结构进行不同处理， 例如redis-cluster模式不宜用 mget
+      3.可能存在的‘稀有’ 调用是否存在bug
+      4.加入新的接口, 例如pipepine 方法。
       
