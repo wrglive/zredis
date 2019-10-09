@@ -1,5 +1,7 @@
 # zredis
 redis的二次封装
+### fix       
+    1.0.2 新增一个简易缓存工具。
 ### 用法:    
       在resource中配置sky-zredis.properpies
       配置文件目前有 host post db password
