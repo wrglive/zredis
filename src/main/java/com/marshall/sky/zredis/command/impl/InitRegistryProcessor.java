@@ -40,6 +40,8 @@ public class InitRegistryProcessor implements BeanDefinitionRegistryPostProcesso
     BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder
         .genericBeanDefinition(clazz);
     BeanDefinition beanDefinition = beanDefinitionBuilder.getBeanDefinition();
+    beanDefinition.setScope(BeanDefinition.SCOPE_SINGLETON);
+    beanDefinition.setAutowireCandidate(true);
     //todo: getName()
     registry.registerBeanDefinition(clazz.getSimpleName(), beanDefinition);
   }
