@@ -1,32 +1,48 @@
-# zredis
-redis的二次封装
-### fix       
-    1.0.2 新增一个简易缓存工具。
-### 用法:    
-      在resource中配置sky-zredis.properpies
-      配置文件目前有 host post db password
-      然后@Resource @Autowired 注入 StringRedis、HashRedis等即可使用.
-      极简化配置。
-### 用例：   
+### ZRedis
+	redis的二次封装, 为了更方便运用, 某些方法,更清晰的使用起来, 
+	简化配置操作,  只需要一个配置文件 然后注入即可. 
+###  更新:      
+    1.0.3 新增一个类RedisLoadingCache<K,V>
+
+### 用法: 
+	在resource 
+	配置 sky-zredis.properpies      
+	@resource 注入command即可使用redis
+	
+	关于缓存
+	使用RedisLoadingCache即可
+### 用例： 
 #### sky-zredis.properties
-      host=localhost
-      port=6379
-      db=0
-      password=
-      
+	host=
+	port=
+	db=
+	password=
+
 #### 接口层
-      @Resource
-      IHashRedisCommand hash表
-      IKeyRedisCommand  key的操作
-      IListRedisCommand list操作
-      ISetRedisCommand  set操作
-      ISortedSetRedisCommand  有序set
-      IStringRedisCommand     字符串kv
-      
-      注入进去就可以直接用了。启动自己会注入到bean中。
-      
+##### zredis
+	@Resource
+	IHashRedisCommand hash表
+	IKeyRedisCommand key的操作
+	IListRedisCommand list操作
+	ISetRedisCommand set操作
+	ISortedSetRedisCommand 有序set
+	IStringRedisCommand 字符串kv
+
+	注入进去就可以直接用了。启动自己会注入到bean中。
+	
+##### 关于缓存     
+	RedisLoadingCache<String, String> skuPostLoadingCache = RedisLoadingCache.<String, String>builder()
+    .expireTime(30) //过期时间
+    .expireTimeUnit(TimeUnit.SECONDS) //时间类型
+    .keyPrefix("SKU.CACHE.TEST:") //key前缀
+    .returnClass(String.class) //返回值类型
+    .loader(this::test) //如果缓存为null 去执行哪个方法获取数据
+    .defaultIfNull("") //如果loader也为null  给的默认值, 不是null就取它 防止缓存穿透
+    .readRefreshExpireTime(true) //读取缓存的时候是否刷新过期时间
+    .build();
+
 ### 目前待解决
-      1.由于是第一版, 可能存在一些方法的遗漏，并且这些方法是在工作中逐渐整理的, 不排除有一些冷门方法存在bug，需要进行大量测试,不过目前感觉还是稳。
+      1.由于是第二版, 可能存在一些方法的遗漏，并且这些方法是在工作中逐渐整理的, 不排除有一些冷门方法存在bug，需要进行大量测试,不过目前感觉还是稳。
       
       
 ### 未来更新
@@ -34,4 +50,4 @@ redis的二次封装
       2.加入针对不同模式集群的redis结构进行不同处理， 例如redis-cluster模式不宜用 mget
       3.加入新的接口, 例如pipepine、 execute方法。
       4.以后会加入新的模块，例如 分布式锁， guava 类似的 cache。
-      
+      5.根据环境控制数据源。

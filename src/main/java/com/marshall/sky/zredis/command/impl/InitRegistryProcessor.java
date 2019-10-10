@@ -28,7 +28,6 @@ public class InitRegistryProcessor implements BeanDefinitionRegistryPostProcesso
     registryBean(SetRedisCommand.class);
     registryBean(SortedSetRedisCommand.class);
     registryBean(KeyRedisCommand.class);
-    registryBean(CacheCommand.class);
   }
 
   @Override
