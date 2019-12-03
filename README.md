@@ -2,6 +2,7 @@
 	redis的二次封装, 为了更方便运用, 某些方法,更清晰的使用起来, 
 	简化配置操作,  只需要一个配置文件 然后注入即可. 
 ###  更新:      
+    1.0.4 新增Cache注解,基于SPEL语法使用.
     1.0.3 新增一个类RedisLoadingCache<K,V>
 
 ### 用法: 
@@ -40,6 +41,19 @@
     .defaultIfNull("") //如果loader也为null  给的默认值, 不是null就取它 防止缓存穿透
     .readRefreshExpireTime(true) //读取缓存的时候是否刷新过期时间
     .build();
+    
+###### @ZZCache, ZZCacheDelete     
+     (Spring 有个通病, 同一个类或者同一个方法执行多个aop注解的时候会有失效的情况, 后续会关注解决办法)
+     包含缓存, 删除缓存的方法, 根据keyPrefix,keyId拼装 唯一的key值, 注意     
+     keyId需要传SPEL语法, 例如:     
+        
+     
+    ```
+     @ZCache(keyPrefix = "testZZCache", keyId = {"#productModuleVO.spuId","#logInfo"}, expireTimeUnit = TimeUnit.HOURS, expireTime = 1L)     
+     public Date test(ProductModuleVO productModuleVO, String logInfo) {     
+     return new Date();     
+     }     
+    ```
 
 ### 目前待解决
       1.由于是第二版, 可能存在一些方法的遗漏，并且这些方法是在工作中逐渐整理的, 不排除有一些冷门方法存在bug，需要进行大量测试,不过目前感觉还是稳。

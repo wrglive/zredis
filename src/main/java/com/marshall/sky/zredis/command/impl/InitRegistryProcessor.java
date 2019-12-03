@@ -16,7 +16,7 @@ public class InitRegistryProcessor implements BeanDefinitionRegistryPostProcesso
   @Override
   public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry)
       throws BeansException {
-    this.registry = registry;
+    InitRegistryProcessor.registry = registry;
     if (!enableZRedis()) {
       return;
     }

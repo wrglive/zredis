@@ -1,7 +1,7 @@
 package com.marshall.sky.zredis.command.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.marshall.sky.zredis.utils.BeanUtil;
+import com.marshall.sky.zredis.utils.ZRedisBeanUtil;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -14,8 +14,8 @@ import lombok.NonNull;
 public class RedisLoadingCache<K, V> {
 
 
-  private final StringRedisCommand redisCommand = BeanUtil.getObject(StringRedisCommand.class);
-  private final KeyRedisCommand keyRedisCommand = BeanUtil.getObject(KeyRedisCommand.class);
+  private final StringRedisCommand redisCommand = ZRedisBeanUtil.getObject(StringRedisCommand.class);
+  private final KeyRedisCommand keyRedisCommand = ZRedisBeanUtil.getObject(KeyRedisCommand.class);
 
   @NonNull
   private String keyPrefix;

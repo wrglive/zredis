@@ -6,7 +6,7 @@
 
   <groupId>com.marshall.sky</groupId>
   <artifactId>zredis</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
   <build>
     <plugins>
       <plugin>
@@ -42,6 +42,23 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
       <version>5.1.5.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>5.1.5.RELEASE</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.9.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.9.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
